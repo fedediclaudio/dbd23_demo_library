@@ -1,6 +1,7 @@
 package com.dbd23.demo1.library.model;
 
-import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
@@ -29,6 +30,7 @@ public abstract class Book {
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = {})
     @JoinColumn(name = "id_author", nullable = false)
+    @JsonManagedReference
     private Author author;
 
     @Transient // Indica que dicho atributo no se mapea a la base de datos.

@@ -1,8 +1,6 @@
 package com.dbd23.demo1.library.model;
 
-import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
+import jakarta.persistence.*;
 
 @Entity
 @DiscriminatorValue("Digital")

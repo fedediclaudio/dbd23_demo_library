@@ -33,9 +33,15 @@ public class AuthorServiceImpl implements AuthorService{
             Author author = authorOptional.get();
             author.setFullname(fullname);
             author.setDateOfBirth(dateOfBirth);
-            this.authorRepository.update(author);
+            this.authorRepository.save(author);
             return author;
         } else return null;
+    }
+
+    @Override
+    @Transactional
+    public Author updateAuthor(Author author) throws LibraryException {
+        return this.authorRepository.save(author);
     }
 
     @Override
@@ -64,15 +70,16 @@ public class AuthorServiceImpl implements AuthorService{
     @Override
     @Transactional(readOnly = true)
     public List<Author> getYoungAuthors() {
-        return this.authorRepository.findByYoung();
+        LocalDate date = LocalDate.now().minusYears(60);
+        return this.authorRepository.findByDateOfBirthGreaterThan(date);
     }
 
     @Override
     @Transactional(readOnly = true)
     public Author getAuthorWithMoreBooks() {
-        Optional<Author> author =  this.authorRepository.findWithMoreBooks();
-        if(author.isPresent()) {
-            Author a = author.get();
+        List<Author> authors =  this.authorRepository.findByMoreBooks();
+        if(authors.size() >= 1) {
+            Author a = authors.get(0);
             a.getBooks().size();
             return a;
         }

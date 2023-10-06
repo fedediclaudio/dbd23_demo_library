@@ -1,8 +1,8 @@
 package com.dbd23.demo1.library.model;
 
-import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
 import java.time.LocalDate;
-import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +22,12 @@ public class Author {
     LocalDate dateOfBirth;
 
     @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
+    @JsonBackReference
     private List<Book> books = new ArrayList<>();
+
+    @Version
+    @Column(name = "version")
+    private int version;
 
     public Author() {
     }
@@ -68,5 +73,13 @@ public class Author {
 
     public void setBooks(List<Book> books) {
         this.books = books;
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
     }
 }

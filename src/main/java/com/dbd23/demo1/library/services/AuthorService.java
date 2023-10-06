@@ -2,6 +2,7 @@ package com.dbd23.demo1.library.services;
 
 import com.dbd23.demo1.library.LibraryException;
 import com.dbd23.demo1.library.model.Author;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -12,6 +13,8 @@ public interface AuthorService {
     public Author createAuthor(String fullname, LocalDate dateOfBirth) throws LibraryException;
 
     public Author updateAuthor(Long id, String fullname, LocalDate dateOfBirth) throws LibraryException;
+
+    Author updateAuthor(Author author) throws LibraryException;
 
     public boolean deleteAuthor(Long id) throws LibraryException;
 

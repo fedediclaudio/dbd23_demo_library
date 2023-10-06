@@ -3,15 +3,12 @@ package com.dbd23.demo1.library;
 import com.dbd23.demo1.library.model.Author;
 import com.dbd23.demo1.library.model.Book;
 import com.dbd23.demo1.library.model.PhysicalBook;
-import com.dbd23.demo1.library.repositories.AuthorRepository;
 import com.dbd23.demo1.library.services.AuthorService;
 import com.dbd23.demo1.library.services.BookService;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
@@ -19,9 +16,9 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-@ExtendWith(SpringExtension.class)
 @Transactional
 @Rollback(false)
 class LibraryApplicationTests {
@@ -120,4 +117,5 @@ class LibraryApplicationTests {
 		List<Book> bookList = this.bookService.findByAuthor(author2);
 		assertEquals(bookList.size(), 2);
 	}
+
 }

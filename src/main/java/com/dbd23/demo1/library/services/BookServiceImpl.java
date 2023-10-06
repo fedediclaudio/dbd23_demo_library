@@ -6,6 +6,7 @@ import com.dbd23.demo1.library.model.Book;
 import com.dbd23.demo1.library.model.DigitalBook;
 import com.dbd23.demo1.library.model.PhysicalBook;
 import com.dbd23.demo1.library.repositories.BookRepository;
+import com.dbd23.demo1.library.repositories.DigitalBookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +19,9 @@ public class BookServiceImpl implements BookService{
 
     @Autowired
     private BookRepository bookRepository;
+
+    @Autowired
+    private DigitalBookRepository digitalBookRepository;
 
     @Override
     @Transactional
@@ -46,7 +50,7 @@ public class BookServiceImpl implements BookService{
     @Override
     @Transactional(readOnly = true)
     public List<DigitalBook> findAllDigitalBook() {
-        return this.bookRepository.findAllDigitalBook();
+        return this.digitalBookRepository.findAll();
     }
 
     @Override
@@ -58,6 +62,6 @@ public class BookServiceImpl implements BookService{
     @Override
     @Transactional(readOnly = true)
     public List<Book> findByAuthor(Author author) {
-        return this.bookRepository.findByAuthor(author.getId());
+        return this.bookRepository.findByAuthorId(author.getId());
     }
 }
