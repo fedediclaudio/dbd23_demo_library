@@ -3,6 +3,7 @@ package com.dbd23.demo1.library.controllers;
 import com.dbd23.demo1.library.LibraryException;
 import com.dbd23.demo1.library.model.Author;
 import com.dbd23.demo1.library.services.AuthorService;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,8 +24,8 @@ public class AuthorController {
     }
 
     @GetMapping(path = "/{id}")
-    public Author getAuthorById(@PathVariable Long id) throws LibraryException {
-        return this.authorService.getById(id).orElse(null);
+    public Author getAuthorById(@PathVariable String id) throws LibraryException {
+        return this.authorService.getById(new ObjectId(id)).orElse(null);
     }
 
     @PostMapping(path = "")

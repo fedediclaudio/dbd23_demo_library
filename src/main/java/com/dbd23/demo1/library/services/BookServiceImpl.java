@@ -5,6 +5,7 @@ import com.dbd23.demo1.library.model.Author;
 import com.dbd23.demo1.library.model.Book;
 import com.dbd23.demo1.library.model.DigitalBook;
 import com.dbd23.demo1.library.model.PhysicalBook;
+import com.dbd23.demo1.library.repositories.AuthorRepository;
 import com.dbd23.demo1.library.repositories.BookRepository;
 import com.dbd23.demo1.library.repositories.DigitalBookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,9 @@ import java.util.Optional;
 public class BookServiceImpl implements BookService{
 
     @Autowired
+    private AuthorRepository authorRepository;
+
+    @Autowired
     private BookRepository bookRepository;
 
     @Autowired
@@ -27,8 +31,9 @@ public class BookServiceImpl implements BookService{
     @Transactional
     public PhysicalBook createPhysicalBook(String isbn, String title, int year, String comments, float weight, String location, Author author) throws LibraryException {
         PhysicalBook physicalBook = new PhysicalBook(isbn, title, year, comments, weight, location, author);
-        author.getBooks().add(physicalBook);
         this.bookRepository.save(physicalBook);
+        author.getBooks().add(physicalBook);
+        this.authorRepository.save(author);
         return physicalBook;
     }
 
@@ -36,8 +41,9 @@ public class BookServiceImpl implements BookService{
     @Transactional
     public DigitalBook createDigitalBook(String isbn, String title, int year, String comments, String format, float size, Author author) throws LibraryException {
         DigitalBook digitalBook = new DigitalBook(isbn, title, year, comments, format, size, author);
-        author.getBooks().add(digitalBook);
         this.bookRepository.save(digitalBook);
+        author.getBooks().add(digitalBook);
+        this.authorRepository.save(author);
         return digitalBook;
     }
 

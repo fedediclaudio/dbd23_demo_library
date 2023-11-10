@@ -1,32 +1,33 @@
 package com.dbd23.demo1.library.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import jakarta.persistence.*;
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Version;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.*;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Table(name = "author")
+@Document
 public class Author {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_author")
-    Long id;
+    @MongoId
+    ObjectId id;
 
-    @Column(length = 100)
+    @Field(name = "fullname")
     String fullname;
 
-    @Column(name = "date_of_birth")
+    @Field
     LocalDate dateOfBirth;
 
-    @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
+    @DBRef
     @JsonBackReference
     private List<Book> books = new ArrayList<>();
 
     @Version
-    @Column(name = "version")
+    @Field
     private int version;
 
     public Author() {
@@ -37,17 +38,17 @@ public class Author {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public Author(Long id, String fullname, LocalDate dateOfBirth) {
+    public Author(ObjectId id, String fullname, LocalDate dateOfBirth) {
         this.id = id;
         this.fullname = fullname;
         this.dateOfBirth = dateOfBirth;
     }
 
-    public Long getId() {
+    public ObjectId getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(ObjectId id) {
         this.id = id;
     }
 

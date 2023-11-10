@@ -19,8 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-@Transactional
-@Rollback(false)
+
 class LibraryApplicationTests {
 
 	@Autowired
@@ -53,10 +52,6 @@ class LibraryApplicationTests {
 		Book book = optionalBook.get();
 		assertEquals(book.getTitle(), "Rayuela");
 		assertEquals(book.getAuthor().getFullname(), "Julio Cortázar");
-
-		// Para que la siguiente comprobación funcione se debe hacer especificar la clase como Rollback(true)
-		// assertThrows(LibraryException.class, () -> this.bookService.createPhysicalBook("0000111122223", "Casa Tomada", 1963, "Comentario", 200, "Seccion C", author), "ConstraintViolation");
-
 	}
 
 	@Test

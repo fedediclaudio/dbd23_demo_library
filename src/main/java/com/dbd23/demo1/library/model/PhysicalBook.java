@@ -1,15 +1,14 @@
 package com.dbd23.demo1.library.model;
 
-import jakarta.persistence.*;
 
-@Entity
-@DiscriminatorValue("Physical")
+import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document
 public class PhysicalBook extends Book{
 
-    @Column
     float weight;
 
-    @Column
     String location;
 
     public PhysicalBook() {
@@ -21,7 +20,7 @@ public class PhysicalBook extends Book{
         this.location = location;
     }
 
-    public PhysicalBook(Long id, String isbn, String title, int year, String comments, float weight, String location, Author author) {
+    public PhysicalBook(ObjectId id, String isbn, String title, int year, String comments, float weight, String location, Author author) {
         super(id, isbn, title, year, comments, author);
         this.weight = weight;
         this.location = location;

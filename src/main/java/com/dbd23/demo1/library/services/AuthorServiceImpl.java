@@ -3,6 +3,7 @@ package com.dbd23.demo1.library.services;
 import com.dbd23.demo1.library.LibraryException;
 import com.dbd23.demo1.library.model.Author;
 import com.dbd23.demo1.library.repositories.AuthorRepository;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,7 +28,7 @@ public class AuthorServiceImpl implements AuthorService{
 
     @Override
     @Transactional
-    public Author updateAuthor(Long id, String fullname, LocalDate dateOfBirth) throws LibraryException {
+    public Author updateAuthor(ObjectId id, String fullname, LocalDate dateOfBirth) throws LibraryException {
         Optional<Author> authorOptional = this.authorRepository.findById(id);
         if(authorOptional.isPresent()) {
             Author author = authorOptional.get();
@@ -46,7 +47,7 @@ public class AuthorServiceImpl implements AuthorService{
 
     @Override
     @Transactional
-    public boolean deleteAuthor(Long id) throws LibraryException {
+    public boolean deleteAuthor(ObjectId id) throws LibraryException {
         Optional<Author> authorOptional = this.authorRepository.findById(id);
         if(authorOptional.isPresent()) {
             Author author = authorOptional.get();
@@ -57,7 +58,7 @@ public class AuthorServiceImpl implements AuthorService{
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<Author> getById(Long id) {
+    public Optional<Author> getById(ObjectId id) {
         return this.authorRepository.findById(id);
     }
 
@@ -78,10 +79,8 @@ public class AuthorServiceImpl implements AuthorService{
     @Transactional(readOnly = true)
     public Author getAuthorWithMoreBooks() {
         List<Author> authors =  this.authorRepository.findByMoreBooks();
-        if(authors.size() >= 1) {
-            Author a = authors.get(0);
-            a.getBooks().size();
-            return a;
+        if(!authors.isEmpty()) {
+            return authors.get(0);
         }
         return null;
     }

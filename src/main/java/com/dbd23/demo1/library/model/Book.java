@@ -1,42 +1,37 @@
 package com.dbd23.demo1.library.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import jakarta.persistence.*;
+import org.bson.codecs.pojo.annotations.BsonIgnore;
+import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.core.mapping.*;
+
 import java.util.List;
 
-@Entity
-@Table(name = "book")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="type",
-        discriminatorType = DiscriminatorType.STRING)
 public abstract class Book {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_book")
-    private Long id;
+    @MongoId
+    private ObjectId id;
 
-    @Column(unique = true, nullable = false, length = 13)
+    @Field
     private String isbn;
 
-    @Column(nullable = false)
+    @Field
     private String title;
 
-    @Column(nullable = false)
+    @Field
     private int year;
 
-    @Column(length = 255)
+    @Field
     private String comments;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {})
-    @JoinColumn(name = "id_author", nullable = false)
+    @Field
     @JsonManagedReference
     private Author author;
 
-    @Transient // Indica que dicho atributo no se mapea a la base de datos.
+    @BsonIgnore // Ignora esta propiedad, ya que no estan mapeadas las Propiedades en esta muesta
     private Editorial editorial;
 
-    @Transient
+    @BsonIgnore
     private List<Genre> genre;
 
     public Book() {
@@ -50,7 +45,7 @@ public abstract class Book {
         this.author = author;
     }
 
-    public Book(Long id, String isbn, String title, int year, String comments, Author author) {
+    public Book(ObjectId id, String isbn, String title, int year, String comments, Author author) {
         this.id = id;
         this.isbn = isbn;
         this.title = title;
@@ -59,11 +54,11 @@ public abstract class Book {
         this.author = author;
     }
 
-    public Long getId() {
+    public ObjectId getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(ObjectId id) {
         this.id = id;
     }
 
